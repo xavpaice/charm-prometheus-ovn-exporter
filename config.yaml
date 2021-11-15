@@ -1,0 +1,13 @@
+options:
+  exporter-listen-port:
+    type: int
+    default: 9476
+    description: |
+      The prometheus-ovn-exporter port to listen on for web interface and
+      telemetry.
+  snap-channel:
+    type: string
+    default: stable
+    description: |
+      Snap channel to use for the installation of prometheus-ovn-exporter
+      (ignored if a valid snap resource is attached).

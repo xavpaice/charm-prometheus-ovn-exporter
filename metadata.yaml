@@ -1,0 +1,31 @@
+name: prometheus-ovn-exporter
+display-name: |
+  prometheus-ovn-exporter
+description: |
+  Subordinate charm to deploy a Prometheus stats exporter for OVN.
+summary: |
+  Uses installs the prometheus-ovn-exporter snap, based on https://github.com/greenpau/ovn_exporter.
+  The charm provides relations to Prometheus to setup a scrape target, and to Grafana to supply a dashboard.
+
+series:
+  - bionic
+  - focal
+tags:
+  - monitoring
+subordinate: true
+
+requires:
+  juju-info:
+    interface: juju-info
+    scope: container
+
+resources:
+  prometheus-ovn-exporter:
+    type: file
+    filename: prometheus-ovn-exporter.snap
+
+provides:
+  ovn-exporter:
+    interface: http
+  grafana:
+    interface: grafana-dashboard

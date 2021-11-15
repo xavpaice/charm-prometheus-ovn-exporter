@@ -1,0 +1,52 @@
+series: bionic
+applications:
+  grafana:
+    charm: cs:grafana
+    channel: stable
+    num_units: 1
+  magpie:
+    charm: cs:~openstack-charmers-next/magpie
+    channel: stable
+    num_units: 3
+    options:
+      source: cloud:bionic-ussuri/proposed
+  mysql:
+    charm: cs:~openstack-charmers-next/percona-cluster
+    channel: stable
+    num_units: 1
+  ovn-central:
+    charm: cs:~openstack-charmers-next/ovn-central
+    channel: stable
+    num_units: 3
+    options:
+      source: cloud:bionic-ussuri/proposed
+  ovn-chassis:
+    charm: cs:~openstack-charmers-next/ovn-chassis
+    channel: stable
+  prometheus-ovn-exporter:
+  prometheus2:
+    channel: stable
+    num_units: 1
+  vault:
+    charm: cs:~openstack-charmers-next/vault
+    channel: stable
+    num_units: 1
+relations:
+- - vault:shared-db
+  - mysql:shared-db
+- - ovn-central:certificates
+  - vault:certificates
+- - magpie:juju-info
+  - ovn-chassis:juju-info
+- - ovn-chassis:ovsdb
+  - ovn-central:ovsdb
+- - ovn-chassis:certificates
+  - vault:certificates
+- - prometheus-ovn-exporter:juju-info
+  - magpie:juju-info
+- - ovn-central:juju-info
+  - prometheus-ovn-exporter:juju-info
+- - prometheus2:target
+  - prometheus-ovn-exporter:ovn-exporter
+- - grafana:dashboards
+  - prometheus-ovn-exporter:grafana
