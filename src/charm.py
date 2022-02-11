@@ -149,7 +149,6 @@ class PrometheusOvnExporterOperatorCharm(CharmBase):
                 [
                     "snap",
                     "install",
-                    "--dangerous",
                     f"--channel={self._stored.snap_channel}",
                     snap_file,
                 ]
